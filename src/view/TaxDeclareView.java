@@ -314,6 +314,9 @@ public class TaxDeclareView extends javax.swing.JFrame {
         txt30.setEnabled(false);
 
         txt31.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt31FocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt31FocusLost(evt);
             }
@@ -325,7 +328,11 @@ public class TaxDeclareView extends javax.swing.JFrame {
             }
         });
 
-        txt33.setEnabled(false);
+        txt33.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt33FocusGained(evt);
+            }
+        });
 
         txt34.setEnabled(false);
 
@@ -341,7 +348,11 @@ public class TaxDeclareView extends javax.swing.JFrame {
             }
         });
 
-        txt37.setEnabled(false);
+        txt37.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt37FocusGained(evt);
+            }
+        });
 
         jLabel38.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
         jLabel38.setText("Đơn vị tiền : Việt Nam Đồng");
@@ -763,13 +774,30 @@ public class TaxDeclareView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txt22FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt22FocusLost
-        updateTxT30();
-        updateTxt33();
+        try {
+       if (!txt22.getText().equals("" )){
+        if( Integer.parseInt(txt23.getText())<=0  ){
+           setRedBorder(txt23);
+           JOptionPane.showMessageDialog(this, "Vui lòng  nhập vào một số dương");
+        }else {
+          txt23.setBorder( new LineBorder(Color.black));
+           updateTxT30();
+           //updateTxt33();
+         }
+       }
+       else {
+           setRedBorder(txt23);
+           JOptionPane.showMessageDialog(this, "Không để trống chỉ tiêu 22!");
+       }
+     }catch ( Exception e){
+         e.toString();
+     }
+        
     }//GEN-LAST:event_txt22FocusLost
 
     private void txt23FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt23FocusLost
      try {
-        if (!txt23.getText().equals("" )){
+       if (!txt23.getText().equals("" )){
        if( Integer.parseInt(txt23.getText())<=0  ){
            setRedBorder(txt23);
            JOptionPane.showMessageDialog(this, "Vui lòng  nhập vào một số dương");
@@ -780,7 +808,7 @@ public class TaxDeclareView extends javax.swing.JFrame {
        }else {
           txt23.setBorder( new LineBorder(Color.black));
            updateTxT30();
-           updateTxt33();
+           
          }
        }
        else {
@@ -797,6 +825,7 @@ public class TaxDeclareView extends javax.swing.JFrame {
         try {
            txt27.setBorder( new LineBorder(Color.black));
             updateTxT24(txt27);
+            updateTxT30 ();
         } catch (Exception  e ){
             e.toString();
         }
@@ -807,6 +836,7 @@ public class TaxDeclareView extends javax.swing.JFrame {
          try {
             txt28.setBorder( new LineBorder(Color.black));
             updateTxT24(txt28);
+            updateTxT30 ();
          }catch (Exception e ){
              e.toString();
          }
@@ -821,6 +851,7 @@ public class TaxDeclareView extends javax.swing.JFrame {
         else {
            txt29.setBorder( new LineBorder(Color.black));
             updateTxT24(txt29);
+            updateTxT30();
         }else {
             setRedBorder(txt23);
            JOptionPane.showMessageDialog(this, "Không để trống chỉ tiêu 29!");
@@ -843,6 +874,7 @@ public class TaxDeclareView extends javax.swing.JFrame {
         }else{
             txt25.setBorder( new LineBorder(Color.black));
             updateTxT24(txt25);
+            updateTxT30 ();
         }
     }else {
           setRedBorder(txt25);
@@ -864,6 +896,7 @@ public class TaxDeclareView extends javax.swing.JFrame {
          }else {
             txt26.setBorder( new LineBorder(Color.black));
              updateTxT24(txt26);
+             updateTxT30 ();
          }
         }else {
              setRedBorder(txt26);
@@ -880,19 +913,15 @@ public class TaxDeclareView extends javax.swing.JFrame {
 
     private void txt32FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt32FocusLost
        try {
-        if (!txt32.getText().equals("") && !txt22.getText().equals("")){
-            
-            if (Integer.parseInt(txt32.getText()) > Integer.parseInt(txt22.getText())){
-                setRedBorder(txt32);
-                JOptionPane.showMessageDialog(this, "Tổng thu nhập chịu thuế làm căn cứ tính giảm thuế phải nhỏ hơn hoặc bằng Tổng thu nhập chịu thuế phát sinh trong kỳ (chỉ tiêu [22])");
-            }else {
-                txt32.setBorder( new LineBorder(Color.black));
-                updateTxt33 ();
-               
-            }          
-        }else {
-            txt32.setText(String.valueOf(0));
-        }
+           int value32 = 0;
+           if (!txt32.getText().equals("")){
+               value32 = Integer.parseInt(txt32.getText());
+               if (value32 > Integer.parseInt(txt32.getText()))
+                   JOptionPane.showMessageDialog(this, "Tổng thu nhập chịu thuế làm căn cứ tính giảm thuế phải nhỏ hơn hoặc bằng Tổng thu nhập chịu thuế phát sinh trong kỳ (chỉ tiêu [22])");
+                
+           }
+           
+              
        } catch (Exception e){
            e.toString();
        }
@@ -900,10 +929,8 @@ public class TaxDeclareView extends javax.swing.JFrame {
 
     private void txt31FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt31FocusLost
        try {
-        if (txt31.getText().equals("")){
-            txt31.setText(String.valueOf(0));
-        }
-        updateTxt33 ();
+          
+          
        } catch (Exception e){
            e.toString();
        }
@@ -926,6 +953,18 @@ public class TaxDeclareView extends javax.swing.JFrame {
            e.toString();
        }
     }//GEN-LAST:event_txt36FocusLost
+
+    private void txt31FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt31FocusGained
+        updateTxT31();
+    }//GEN-LAST:event_txt31FocusGained
+
+    private void txt33FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt33FocusGained
+        updateTxt33();
+    }//GEN-LAST:event_txt33FocusGained
+
+    private void txt37FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt37FocusGained
+        updateTxt37();
+    }//GEN-LAST:event_txt37FocusGained
        
        public void setRedBorder (JTextField textField){     
            textField.setBorder( new LineBorder(Color.RED, 2));
@@ -953,52 +992,100 @@ public class TaxDeclareView extends javax.swing.JFrame {
        
        public void updateTxT30 (){
            try {
-           int value30 = 0;
+            
            int value22 = 0;
            int value23 = 0;
            int value24 = 0;
-           if (txt22.getText().equals("")){
-               value30 = 0;
-               txt30.setText(String.valueOf(value30));
+           int value30 = 0;
+           
+           if (!txt22.getText().equals("")){
+               value22 = Integer.parseInt(txt22.getText());
            }
-           else if (txt23.getText().equals("")){
-               if (txt24.getText().equals("")){
-                   value30 = Integer.parseInt(txt22.getText());
-                   txt30.setText(String.valueOf(value30));
-              }else {
-                    value30 = Integer.parseInt(txt22.getText())- Integer.parseInt(txt24.getText());
-                    if (value30 < 0)
-                        txt30.setText(String.valueOf(0));
-                    else 
-                        txt30.setText(String.valueOf(value30));
-               }
+           if (!txt23.getText().equals("")){
+               value23 = Integer.parseInt(txt23.getText());
            }
-           else {
-               if (!txt24.getText().equals("")){
-               value30 = Integer.parseInt(txt22.getText()) - Integer.parseInt(txt23.getText()) - Integer.parseInt(txt24.getText());
-               if (value30 <0 ){
-               txt30.setText(String.valueOf(0));}
-                    else 
-                   txt30.setText(String.valueOf(value30));}
-               else {
-                   value30 = Integer.parseInt(txt22.getText()) - Integer.parseInt(txt23.getText()) - 0;
-               txt30.setText(String.valueOf(value30));
-               }
+           if (!txt24.getText().equals("")){
+               value24 = Integer.parseInt(txt24.getText());
+               
            }
+            value30 = value22 - value23 - value24;
+            if (value30 <= 0)
+               txt30.setText(String.valueOf(0));
+            else
+                txt30.setText(String.valueOf(value30));
+           
            
        }catch (Exception e ){
            e.toString();
        }
        }
        
+       public void updateTxT31 (){
+           try{
+               
+                int value30 = 0;
+               
+                if (txt30.getText().equals(""))
+                    txt31.setText(String.valueOf(0));
+                else {
+                    value30 = Integer.parseInt(txt30.getText());
+                    if (value30 <= 5000000){
+                        int  fivePercen = (int) (Integer.parseInt(txt30.getText())/3 *0.05/100);   
+                        txt31.setText(String.valueOf(fivePercen));         
+                    }else if (value30 < 5000000 && value30 <= 10000000){
+                       int  tenPercen = (int) (Integer.parseInt(txt30.getText())/3 *0.1/100); 
+                        txt31.setText(String.valueOf(tenPercen));
+                        
+                    } else if (value30 > 10000000 && value30 <=18000000){
+                         int  fifteenPercen = (int) (Integer.parseInt(txt30.getText())/3 *0.15/100);
+                         txt31.setText(String.valueOf(fifteenPercen));
+                    } else if (value30 > 18000000 && value30 <=32000000){
+                         int  twentyPercen = (int) (Integer.parseInt(txt30.getText())/3 *0.2/100);
+                         txt31.setText(String.valueOf(twentyPercen));
+                    }else if (value30 > 32000000 && value30 <= 52000000){
+                          int  twentyFivePercen = (int) (Integer.parseInt(txt30.getText())/3 *0.25/100);
+                         txt31.setText(String.valueOf(twentyFivePercen));
+                    }else if (value30 > 52000000 && value30 <= 80000000){
+                          int  thirtyPercen = (int) (Integer.parseInt(txt30.getText())/3 *0.30/100);
+                         txt31.setText(String.valueOf(thirtyPercen));
+                    }else if (value30 > 80000000){
+                           int  thirtyFivePercen = (int) (Integer.parseInt(txt30.getText())/3 *0.35/100);
+                         txt31.setText(String.valueOf(thirtyFivePercen));
+                    }
+                    
+
+                }
+           }catch (Exception e){
+               
+           }          
+       }
+       
        public void updateTxt33 (){
            try {
-           int value31 = Integer.parseInt(txt31.getText());
-           int value32 = Integer.parseInt(txt32.getText());
-           int value22 = Integer.parseInt(txt22.getText());
-           int value23 = Integer.parseInt(txt23.getText());
+               
+              int value31 = 0;
+              int value32 = 0;
+              int value22 = 0;
+              int value23 = 0;
            
-          txt33.setText(String.valueOf(value31 * (value32 / (value22 - value23)) * 50 /100));
+            if (!txt31.getText().equals(""))
+               value31 = Integer.parseInt(txt31.getText());       
+            if (!txt32.getText().equals(""))
+               value32 = Integer.parseInt(txt32.getText());
+            if (!txt22.getText().equals(""))
+               value22 = Integer.parseInt(txt22.getText());
+            if (!txt23.getText().equals(""))
+               value23 = Integer.parseInt(txt23.getText());
+            
+               System.out.println(value22 +" "+ value23 +" "+ value31+ " " + value32);
+           
+                int value33 =  (int) (value31 * (value32 / (value22 - value23))* 0.5);
+                
+               System.out.println(value33);
+               
+           
+          txt33.setText(String.valueOf(value33));
+          updateTxt34();
            } catch (Exception e){
                e.toString();
            }
@@ -1007,7 +1094,19 @@ public class TaxDeclareView extends javax.swing.JFrame {
 }
        public void updateTxt34 (){
            try {
-           txt34.setText(String.valueOf(Integer.parseInt(txt31.getText()) - Integer.parseInt(txt33.getText())));
+            int value31 = 0;
+            int value33 = 0;
+            
+            
+            if (!txt31.getText().equals(""))
+               value31 = Integer.parseInt(txt31.getText());
+            if (!txt32.getText().equals(""))
+               value33 = Integer.parseInt(txt33.getText());
+            
+           int value34=  value31 - value33;
+            
+            txt34.setText(String.valueOf(value34));
+             
            } catch (Exception e ){
                e.toString();
            }
@@ -1015,7 +1114,18 @@ public class TaxDeclareView extends javax.swing.JFrame {
        
        public void updateTxt37 (){
            try {
-           txt37.setText(String.valueOf(Integer.parseInt(txt35.getText()) * Integer.parseInt(txt36.getText()) /100 ));
+           int value35 = 0;
+           int value36 = 0;
+           
+           if (!txt35.getText().equals(""))
+               value35 = Integer.parseInt(txt35.getText());
+            if (!txt36.getText().equals(""))
+               value36 = Integer.parseInt(txt36.getText());
+            
+            int value37 = value35 * value36 /100;
+            
+            txt37.setText(String.valueOf(value37));
+           
            } catch (Exception e ){
                e.toString();
            }

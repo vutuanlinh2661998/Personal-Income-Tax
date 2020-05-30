@@ -28,7 +28,7 @@ public class SendEmailActivation {
      properties.put("mail.smtp.port","587");
      
      String myAccount = "vutuanlinh99@gmail.com";
-     String password = "namdinh123";
+     String password = "*******";
      
      Session session = Session.getDefaultInstance(properties, new Authenticator() {
          @Override

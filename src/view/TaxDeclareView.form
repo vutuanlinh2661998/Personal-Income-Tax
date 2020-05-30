@@ -804,6 +804,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txt31">
               <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt31FocusGained"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt31FocusLost"/>
               </Events>
             </Component>
@@ -813,9 +814,9 @@
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txt33">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt33FocusGained"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txt34">
               <Properties>
@@ -833,9 +834,9 @@
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txt37">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt37FocusGained"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel38">
               <Properties>
