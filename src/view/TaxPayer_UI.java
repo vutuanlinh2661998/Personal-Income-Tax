@@ -6,6 +6,8 @@
 package view;
 
 import controller.TaxPayerDAO;
+import controller.TaxPayerDAO;
+import function.ReadNumber;
 import model.TaxCode;
 import model.TaxDeclare;
 import model.TaxPayer;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -47,35 +51,50 @@ public class TaxPayer_UI extends javax.swing.JFrame {
         listTP = new ArrayList<>();
     }
 
-    public TaxPayer_UI(int id, String name, int tax_code, String address) throws SQLException {
+    public JButton getjButton2() {
+        return jButton2;
+    }
+
+    public void setjButton2(JButton jButton2) {
+        this.jButton2 = jButton2;
+    }
+
+    public TaxPayer_UI(int id, String name, int tax_code, String address) {
         this.id = id;
         this.name = name;
         this.tax_code = tax_code;
         this.address = address;
         initComponents();
+        fillTaxPayer();
+        tm1 = (DefaultTableModel) jTable1.getModel();
+        listTP = new ArrayList<>();
+    }
+
+    public TaxPayer_UI(int id, String name, int tax_code, String address, Float total, String tax_period) {
+        this.id = id;
+        this.name = name;
+        this.tax_code = tax_code;
+        this.address = address;
+        this.total = total;
+        this.tax_period = tax_period;
+        initComponents();
+        jcbPeriod.setEnabled(false);
 
         fillTaxPayer();
 
         tm1 = (DefaultTableModel) jTable1.getModel();
-        listTP = new ArrayList<>();
+        tm1.setRowCount(0);
+        tm1.addRow(new Object[]{1, null, tax_period, null, null, total});
+        jTextField1.setText(String.valueOf(total));
+        ReadNumber number = new ReadNumber();
+        String word_money = number.xuatTien(total);
+        lblword_money.setText(word_money);
+//        listTP = new ArrayList<>();
 
     }
 
-   
+    private void fillTaxPayer() {
 
-    private void fillTaxPayer() throws SQLException {
-
-        //test
-//        TaxDeclare declare = new TaxDeclare();
-//        TaxCode taxCode = new TaxCode(9456321, "Ha", "HN");
-//        User user = new User();
-//        user.setTaxcode(taxCode);
-//        user.setId(3);
-//        declare.setUser(user);
-        //get data
-//        String name = declare.getUser().getTaxcode().getName();
-//        String tax_code = String.valueOf(declare.getUser().getTaxcode().getTaxcode());
-//        String address = declare.getUser().getTaxcode().getAddress();
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         String strDate = formatter.format(date);
@@ -138,6 +157,7 @@ public class TaxPayer_UI extends javax.swing.JFrame {
         jcbPeriod = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        lblword_money = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
 
@@ -274,10 +294,10 @@ public class TaxPayer_UI extends javax.swing.JFrame {
         jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
         jLabel3.setText("Tổng tiền: ");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 160, -1, -1));
 
         jTextField1.setEditable(false);
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 150, 170, 30));
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 150, 170, 30));
 
         jcbPeriod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--------Chọn Quý-------", "Quý 1 ( Từ tháng 1 đến tháng 3)", "Quý 2 ( Từ tháng 4 đến tháng 6)", "Quý 3 ( Từ tháng 7 đến tháng 9)", "Quý 4 ( Từ tháng 10 đến tháng 12)", " ", " " }));
         jPanel1.add(jcbPeriod, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 190, -1));
@@ -292,6 +312,7 @@ public class TaxPayer_UI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 90, 30));
+        jPanel1.add(lblword_money, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, -1, -1));
 
         jButton1.setText("Hoàn thành");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -312,60 +333,66 @@ public class TaxPayer_UI extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 895, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(153, 153, 153)
-                .addComponent(btnBack)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(361, 361, 361))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 895, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(153, 153, 153)
+                        .addComponent(btnBack)
+                        .addGap(311, 311, 311)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(74, 74, 74))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+                .addGap(36, 36, 36)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(btnBack))
-                .addGap(450, 450, 450))
+                    .addComponent(btnBack)
+                    .addComponent(jButton1))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel2);
-
-        jScrollPane3.setViewportView(jScrollPane2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 993, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 822, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -378,16 +405,25 @@ public class TaxPayer_UI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Date date = new Date();
+
+        try {
+            Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         String strDate = formatter.format(date);
         Timestamp now = new Timestamp(date.getTime());
         String bank = (String) jComboBox3.getSelectedItem();
         String bankCode = (String) jComboBox4.getSelectedItem();
+
         // move into Tax_Receipt
-        Tax_Receipt receipt = new Tax_Receipt(name, tax_code, address, bank, bankCode, now, id, total, tax_period);
+        ReadNumber number = new ReadNumber();
+        String word_money = number.xuatTien(total);
+        lblword_money.setText(word_money);
+        Tax_Receipt receipt = new Tax_Receipt(name, tax_code, address, bank, bankCode, now, id, total, tax_period, word_money);
         receipt.setVisible(true);
         this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Tài khoản ngân hàng,số TK và kì thuế vui lòng không được để trống !");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -408,9 +444,26 @@ public class TaxPayer_UI extends javax.swing.JFrame {
             tm1.setRowCount(0);
             tm1.addRow(new Object[]{1, null, tax_period, null, null, total});
             jTextField1.setText(String.valueOf(total));
+            ReadNumber number = new ReadNumber();
+            String word_money = number.xuatTien(total);
+            lblword_money.setText(word_money);
 
         } catch (SQLException ex) {
             Logger.getLogger(TaxPayer_UI.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (ArrayIndexOutOfBoundsException ex) {
+
+            int n = JOptionPane.showConfirmDialog(
+                    this,
+                    "Chưa đến hạn nộp hoặc quý khách chưa tùng khai báo kì thuế này. Quý khách có muốn bổ sung ?",
+                    "Alert",
+                    JOptionPane.YES_NO_OPTION);
+            if (n == JOptionPane.YES_OPTION) {
+                supportTax_dialog t = new supportTax_dialog(id, name, tax_code, address, tax_period);
+                t.setVisible(true);
+                this.dispose();
+
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -443,6 +496,8 @@ public class TaxPayer_UI extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(TaxPayer_UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -501,6 +556,7 @@ public class TaxPayer_UI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JComboBox<String> jcbPeriod;
+    private javax.swing.JLabel lblword_money;
     // End of variables declaration//GEN-END:variables
 
 }

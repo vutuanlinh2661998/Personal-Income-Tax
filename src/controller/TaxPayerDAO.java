@@ -40,18 +40,21 @@ public class TaxPayerDAO {
     public ArrayList<TaxPayer> fillTaxPayer(int user_id, String tax_period) throws SQLException {
         TaxPayer tp = null;
         ArrayList<TaxPayer> list = new ArrayList<>();
+//        dao = new DAO();
+//        con= dao.getInstance();
+        
 
       
-        String sql = "SELECT a.tax_code,td.user_id,tc.name,tc.address,td.tax_period,td.total,td.time_update\n"
+        String sql = "SELECT u.tax_code,td.user_id,tc.name,tc.address,td.tax_period,td.total,td.time_update\n"
                 + "                FROM tax_declare td\n"
-                + "                JOIN account a\n"
-                + "                ON a.account_id=td.user_id\n"
+                + "                JOIN user u\n"
+                + "                ON u.id=td.user_id\n"
                 + "                JOIN tax_code tc \n"
-                + "                ON tc.tax_code = a.tax_code\n"
-                + "                WHERE a.account_id = ?\n"
+                + "                ON tc.tax_code = u.tax_code\n"
+                + "                WHERE u.id= ?\n"
                 + "                AND td.tax_period LIKE ?";
 
-        ps = con.prepareStatement(sql);
+        PreparedStatement ps = (PreparedStatement) con.prepareStatement(sql);
         ps.setInt(1, user_id);
         ps.setString(2, tax_period);
 
@@ -59,7 +62,7 @@ public class TaxPayerDAO {
 
         while (rs.next()) {
 //
-            TaxCode taxCode = new TaxCode(rs.getInt("tax_code"),  rs.getString("name"), null, null, null, null, rs.getString("address"), true);
+            TaxCode taxCode = new TaxCode(rs.getInt("tax_code"), rs.getInt("user_id"), rs.getString("name"), null, null, null, null, rs.getString("address"), true);
             TaxDeclare declare = new TaxDeclare(rs.getString("tax_period"), rs.getFloat("total"), rs.getString("time_update"));
             tp = new TaxPayer();
 
@@ -99,7 +102,7 @@ public class TaxPayerDAO {
 //        aO.fillTaxPayer(3);
 //        System.out.println("Total" + aO.fillTaxPayer(3).getTaxDeclare().getTotal());
         ArrayList<TaxPayer> list = new ArrayList<>();
-        list = aO.fillTaxPayer(1,"Quý 3 ( Từ tháng 7 đến tháng 9)");
+        list = aO.fillTaxPayer(2,"Quý 2 ( Từ tháng 4 đến tháng 6)");
         int size = list.size();
         System.out.println(size);
         System.out.println("Total: " + list.get(size-1).getTaxDeclare().getTotal());
