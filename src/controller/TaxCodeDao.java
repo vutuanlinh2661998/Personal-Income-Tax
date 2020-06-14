@@ -54,8 +54,8 @@ public class TaxCodeDao {
     }
     
      public int addTaxCode(TaxCode tax) {
-        String sql1 = "INSERT INTO tax_code (`tax_code`,`name`, `sex`, `nationality`, `phone`, `email`, `address`, `user_id`, `status`)"
-                + "VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql1 = "INSERT INTO tax_code (`tax_code`,`name`, `sex`, `nationality`, `phone`, `email`, `address`,`status`)"
+                + "VALUES(?,?,?,?,?,?,?,?)";
         int returnValue1 = 0;
         try {
             PreparedStatement ps = con.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);

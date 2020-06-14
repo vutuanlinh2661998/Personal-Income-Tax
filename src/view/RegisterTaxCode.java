@@ -94,8 +94,8 @@ public class RegisterTaxCode extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("REGISTER TAXCODE");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Đăng ký mã số thuế");
 
         jLabel2.setText("Họ và tên");
 
@@ -192,7 +192,7 @@ public class RegisterTaxCode extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -268,7 +268,7 @@ public class RegisterTaxCode extends javax.swing.JFrame {
                     taxCodeDAO = new TaxCodeDao();
                     if (taxCodeDAO.checkTaxcode(t)) {
                         taxCodeDAO.addTaxCode(t);
-                        userDAO.addUser(u, t);
+                        //userDAO.addUser(u, t);
                         // Quay lai man hinh login
 
                         JOptionPane.showMessageDialog(this, "Đăng kí thành công!");

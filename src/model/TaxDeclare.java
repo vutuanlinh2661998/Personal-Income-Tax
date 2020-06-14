@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 //Khai báo thuế
 public class TaxDeclare {
-    private String id;
     private User user;
     private String taxPeriod; //Kỳ tính thuế.VD: Quý 1-2020
     private boolean firstTime;
@@ -33,4 +32,16 @@ public class TaxDeclare {
         this.total = total;
         this.time_update = time_update;
     }
+
+    public TaxDeclare(int id, String taxPeriod, boolean firstTime, String time_update, float total, Timestamp createDate) {
+        this.taxPeriod = taxPeriod;
+        this.firstTime = firstTime;
+        this.time_update = time_update;
+        this.total = total;
+        this.createDate = createDate;
+    }
+
+    
+
+   
 }

@@ -27,7 +27,7 @@ public class ActivationCodeDao {
     }
      public int insertActivationCode (String token, Date expireDate, int accountID) throws SQLException{
          int status = -1;
-        try {
+         try {
             String sql = "INSERT INTO activate_code_account (token, expire_date, account_id) VALUES (?,?,?)";
             pr = con.prepareStatement(sql);
             pr.setString(1, token);
@@ -36,7 +36,7 @@ public class ActivationCodeDao {
             status = pr.executeUpdate();
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Mã số thuế không tồn tại!");
+            ex.printStackTrace();
         }
 //        finally{
 //            con.close();
