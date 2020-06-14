@@ -17,8 +17,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class SendEmailActivation {
     
-  
-
+ 
     
     public static void sendEmail (String recepient,String activationCode) throws MessagingException{
      Properties properties = new Properties();
