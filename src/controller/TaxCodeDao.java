@@ -83,10 +83,6 @@ public class TaxCodeDao {
         int check = taxcode.getTaxcode();
         String sql = "SELECT * FROM `tax_code` WHERE tax_code = ?";
         try {
-//            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//            ps.setString(1, Integer.toString(taxcode.getTaxcode()));
-//            ps.execute();
-//            ResultSet rs = ps.getGeneratedKeys();
             Statement stmt = con.createStatement();
             ResultSet rs;
 

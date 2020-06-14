@@ -140,7 +140,7 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         try {
             String username = this.username.getText();
-            String password = this.password.getPassword().toString();
+            String password = this.password.getText();
             accDao = new AccountDao();
             int code = -1;
             int userAccountID = -1;
