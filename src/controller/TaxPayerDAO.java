@@ -45,14 +45,14 @@ public class TaxPayerDAO {
         
 
       
-        String sql = "SELECT u.tax_code,td.user_id,tc.name,tc.address,td.tax_period,td.total,td.time_update\n"
-                + "                FROM tax_declare td\n"
-                + "                JOIN user u\n"
-                + "                ON u.id=td.user_id\n"
-                + "                JOIN tax_code tc \n"
-                + "                ON tc.tax_code = u.tax_code\n"
-                + "                WHERE u.id= ?\n"
-                + "                AND td.tax_period LIKE ?";
+        String sql = "SELECT a.tax_code,td.user_id,tc.name,tc.address,td.tax_period,td.total,td.time_update\n" +
+"                                FROM tax_declare td\n" +
+"                               JOIN account a\n" +
+"                              ON a.account_id=td.user_id\n" +
+"                           JOIN tax_code tc \n" +
+"                              ON tc.tax_code = a.tax_code\n" +
+"                         WHERE a.account_id = ?\n" +
+"                         AND td.tax_period LIKE ?";
 
         PreparedStatement ps = (PreparedStatement) con.prepareStatement(sql);
         ps.setInt(1, user_id);
