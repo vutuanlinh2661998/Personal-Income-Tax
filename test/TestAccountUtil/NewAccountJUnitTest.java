@@ -36,13 +36,14 @@ public class NewAccountJUnitTest {
     Connection con = dao.getInstance();
     PreparedStatement pr ;
     static  AccountDao accDao = new AccountDao();
+    static TaxCodeDao taxCodeDao = new TaxCodeDao();
     int status = -1;
     
     
     public NewAccountJUnitTest() {
         
     }
-    
+    //Kiểm tra thêm tài khoản mới  hợp lệ
     @Test
     public void addNewAcountValid (){
         try {
@@ -65,24 +66,129 @@ public class NewAccountJUnitTest {
         assertEquals(1, status);
     } 
     
+    //Kiểm tra thêm tài khoản mới với mã số thuế đã được đăng ký tài khoản
     @Test
-    public void addNewAcountInvalid (){
+    public void addNewAcountTaxCodeRegistered(){
         try {
             String username = "linh";
             String password = "123";
             int taxcode = 12345;
             con.setAutoCommit(false);
-            if(checkTaxcode(taxcode) == true){
-                status = 0;
-            }else{
-               status =  accDao.insertAccount(username, password, taxcode);
-            }         
+            if(checkTaxcode(taxcode) == true)
+                status = 0;              
         } catch (SQLException ex) {
            ex.printStackTrace();
         }
         assertEquals(0, status);
     }
     
+    //Kiểm tra thêm tài khoản mới với mã số thuế không tồn tại
+    @Test
+    public void addnewAccountTaxcodeNotExist(){
+        String username = "vanlong";
+        String password = "123";
+        int taxcode = 532233;
+        try {
+            TaxCode taxCode = taxCodeDao.getTaxCodebyCode(taxcode);
+            if(taxCode == null)
+                status = 0;
+        } catch (Exception e) {
+        }
+        assertEquals(0, status);
+    }
+    
+    //Kiểm tra thêm tài khoản mới với tên đăng nhập và mật khẩu đã tồn tại
+    @Test
+    public void addNewAccountUsernameAndPasswordExisted (){
+        ArrayList<Object> listAccount = new ArrayList<>();
+        String username = "vanlong";
+        String password = "123";
+        try {
+            listAccount = accDao.selectAccount(username, password);
+            if(listAccount != null)
+                status = 1;
+        } catch (Exception e) {
+        }
+        assertEquals(1, status);
+    }
+    
+    //Kiểm tra đăng nhập hợp lệ
+    @Test
+    public void testLoginValid(){
+        int accountID = -1 ;
+            String username = "vanlong";
+            String password = "123";
+        try {          
+            AccountDao accDao = new AccountDao();
+                TaxCodeDao taxDao = new TaxCodeDao(); 
+                accountID = (int) accDao.selectAccount(username, password).get(0);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NewAccountJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertEquals(23, accountID);
+        
+    }
+    
+    //Kiểm tra đăng nhập với tên đăng nhập sai
+    @Test 
+    public void testLoginWrongUsername (){
+        int lenArray = -1 ;
+            String username = "vanlong2";
+            String password = "123";
+        try {          
+            AccountDao accDao = new AccountDao();
+                TaxCodeDao taxDao = new TaxCodeDao(); 
+                ArrayList<Object> listAccount = accDao.selectAccount(username, password);
+                if (listAccount.size() == 0)
+                    lenArray = 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NewAccountJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertEquals(0, lenArray);
+        
+    }
+    
+    
+    //Kiểm tra đăng nhập với mật khẩu sai
+    @Test 
+    public void testLoginWrongPassword(){
+        int lenArray = -1 ;
+            String username = "vanlong";
+            String password = "1234";
+        try {          
+                AccountDao accDao = new AccountDao();
+                ArrayList<Object> listAccount = accDao.selectAccount(username, password);
+                if (listAccount.size() == 0)
+                    lenArray = 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NewAccountJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertEquals(0, lenArray);
+        
+    }
+    
+    //Kiểm tra đăng nhập với tài khoản chưa được kích hoạt
+    @Test
+    public void testLoginAccountNotActivated (){
+        boolean activated = true ;
+            String username = "ha";
+            String password = "123";
+        try {          
+            AccountDao accDao = new AccountDao();
+                TaxCodeDao taxDao = new TaxCodeDao(); 
+                activated = (boolean) accDao.selectAccount(username, password).get(4);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NewAccountJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertEquals(false, activated);
+    }
+    
+    
+    //Kiểm tra thêm mới mã số kích hoạt tài khoản
     @Test
     public void addNewActivateCode(){
         
@@ -104,78 +210,7 @@ public class NewAccountJUnitTest {
         assertEquals(1, status);
     }
     
-    @Test
-    public void testLoginValid(){
-        int accountID = -1 ;
-            String username = "vanlong";
-            String password = "123";
-        try {          
-            AccountDao accDao = new AccountDao();
-                TaxCodeDao taxDao = new TaxCodeDao(); 
-                accountID = (int) accDao.selectAccount(username, password).get(0);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(NewAccountJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        assertEquals(23, accountID);
-        
-    }
-    
-    @Test 
-    public void testLoginWrongUsername (){
-        int lenArray = -1 ;
-            String username = "vanlong2";
-            String password = "123";
-        try {          
-            AccountDao accDao = new AccountDao();
-                TaxCodeDao taxDao = new TaxCodeDao(); 
-                ArrayList<Object> listAccount = accDao.selectAccount(username, password);
-                if (listAccount.size() == 0)
-                    lenArray = 0;
-
-        } catch (SQLException ex) {
-            Logger.getLogger(NewAccountJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        assertEquals(0, lenArray);
-        
-    }
-    
-    @Test 
-    public void testLoginWrongPassword(){
-        int lenArray = -1 ;
-            String username = "vanlong";
-            String password = "1234";
-        try {          
-            AccountDao accDao = new AccountDao();
-                TaxCodeDao taxDao = new TaxCodeDao(); 
-                ArrayList<Object> listAccount = accDao.selectAccount(username, password);
-                if (listAccount.size() == 0)
-                    lenArray = 0;
-
-        } catch (SQLException ex) {
-            Logger.getLogger(NewAccountJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        assertEquals(0, lenArray);
-        
-    }
-    
-    @Test
-    public void testLoginAccountNotActivated (){
-        boolean activated = true ;
-            String username = "ha";
-            String password = "123";
-        try {          
-            AccountDao accDao = new AccountDao();
-                TaxCodeDao taxDao = new TaxCodeDao(); 
-                activated = (boolean) accDao.selectAccount(username, password).get(4);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(NewAccountJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        assertEquals(false, activated);
-    }
-    
-    
+    //Hàm kiểm tra tất cả các mã số thuế đã được đăng ký tài khoản
     public static boolean checkTaxcode (int taxcode) throws SQLException{
         boolean status = false;
         ArrayList<Integer> listTax = accDao.getAllTaxCode();
